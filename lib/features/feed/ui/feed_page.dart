@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import '../data/feed_remote_datasource.dart';
-import '../models/post_model.dart';
-import 'create_post_dialog.dart';
+import '../../feed/data/feed_remote_datasource.dart';
+import '../../feed/domain/models/post_model.dart';
+import 'dialogs/create_post_dialog.dart';
+import 'dialogs/edit_post_dialog.dart';
 import 'feed_viewmodel.dart';
 import '../../core/dio_client.dart';
-import '../domain/feed_repository.dart';
+import '../../feed/domain/feed_repository.dart';
 
 class FeedPage extends StatelessWidget {
   final String username;
@@ -58,7 +59,14 @@ class FeedPage extends StatelessWidget {
               _confirmDelete(context, post);
             }
             if (value == 'edit') {
-              // todo implementar
+              showDialog(
+                context: context,
+                builder: (_) => EditPostDialog(
+                  post: post,
+                  vm: vm,
+                  token: token,
+                ),
+              );
             }
           },
           itemBuilder: (_) => const [

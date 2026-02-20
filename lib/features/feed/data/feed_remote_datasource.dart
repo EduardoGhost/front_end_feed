@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../core/dio_client.dart';
-import '../models/post_model.dart';
+import '../domain/models/post_model.dart';
 
 class FeedRemoteDataSource {
   final Dio dio;
@@ -38,6 +38,18 @@ class FeedRemoteDataSource {
         headers: {'Authorization': 'Bearer $token'},
       ),
     );
+  }
+
+  Future<Post> updatePost(int id, Post post, String token) async {
+    final response = await dio.put(
+      '/posts/$id',
+      data: post.toJson(),
+      options: Options(headers: {
+        'Authorization': 'Bearer $token',
+      }),
+    );
+
+    return Post.fromJson(response.data);
   }
 
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/post_model.dart';
+
+import '../../domain/models/post_model.dart';
 
 Widget optionCardWidget(
     Post post, {

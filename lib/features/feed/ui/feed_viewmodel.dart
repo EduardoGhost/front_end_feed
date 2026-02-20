@@ -1,6 +1,6 @@
 import 'package:mobx/mobx.dart';
 import '../domain/feed_repository.dart';
-import '../models/post_model.dart';
+import '../domain/models/post_model.dart';
 
 part 'feed_viewmodel.g.dart';
 
@@ -48,6 +48,25 @@ abstract class _FeedViewModelBase with Store {
   Future deletePost(Post post, String token) async {
     await repository.deletePost(post.id!, token);
     posts.remove(post);
+  }
+
+  Future<void> updatePost(
+      int id,
+      String title,
+      String content,
+      String token,
+      ) async {
+    final updated = await repository.updatePost(
+      id,
+      title,
+      content,
+      token,
+    );
+
+    final index = posts.indexWhere((p) => p.id == id);
+    if (index != -1) {
+      posts[index] = updated;
+    }
   }
 
 }

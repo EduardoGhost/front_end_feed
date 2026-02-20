@@ -74,6 +74,14 @@ mixin _$FeedViewModel on _FeedViewModelBase, Store {
         .run(() => super.createPost(title, content, token));
   }
 
+  late final _$deletePostAsyncAction =
+      AsyncAction('_FeedViewModelBase.deletePost', context: context);
+
+  @override
+  Future<dynamic> deletePost(Post post, String token) {
+    return _$deletePostAsyncAction.run(() => super.deletePost(post, token));
+  }
+
   @override
   String toString() {
     return '''

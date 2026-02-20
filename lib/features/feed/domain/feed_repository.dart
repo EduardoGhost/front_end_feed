@@ -1,5 +1,5 @@
 import '../data/feed_remote_datasource.dart';
-import '../models/post_model.dart';
+import 'models/post_model.dart';
 
 class FeedRepository {
   final FeedRemoteDataSource remote;
@@ -26,6 +26,22 @@ class FeedRepository {
 
   Future<void> deletePost(int id, String token) {
     return remote.deletePost(id, token);
+  }
+
+  Future<Post> updatePost(
+      int id,
+      String title,
+      String content,
+      String token,
+      ) {
+    final post = Post(
+      id: id,
+      title: title,
+      content: content,
+      createdAt: DateTime.now(),
+    );
+
+    return remote.updatePost(id, post, token);
   }
 
 }

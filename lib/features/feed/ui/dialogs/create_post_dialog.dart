@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'feed_viewmodel.dart';
+import '../feed_viewmodel.dart';
 
-
+///mudar para statefull?
 class CreatePostDialog extends StatelessWidget {
   final FeedViewModel vm;
   final String token;

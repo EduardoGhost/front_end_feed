@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'features/auth/ui/feed_page.dart';
 import 'features/auth/ui/login_page.dart';
 import 'features/auth/domain/entities/auth_user.dart';
+import 'features/feed/ui/feed_page.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../core/dio_client.dart';
+import '../../feed/ui/feed_page.dart';
 import '../data/auth_remote_datasource.dart';
-import 'feed_page.dart';
 import 'login_viewmodel.dart';
 
 class LoginPage extends StatelessWidget {
