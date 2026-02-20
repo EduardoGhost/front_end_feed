@@ -21,4 +21,23 @@ class FeedRemoteDataSource {
         .map((json) => Post.fromJson(json))
         .toList();
   }
+
+  Future<Post> createPost(String token, Post post) async {
+    final response = await dio.post(
+      '/posts',
+      data: post.toJson(),
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+    );
+    return Post.fromJson(response.data);
+  }
+
+  Future<void> deletePost(int id, String token) async {
+    await dio.delete(
+      '/posts/$id',
+      options: Options(
+        headers: {'Authorization': 'Bearer $token'},
+      ),
+    );
+  }
+
 }

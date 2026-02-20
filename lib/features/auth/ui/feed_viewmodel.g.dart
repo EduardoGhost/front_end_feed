@@ -41,6 +41,22 @@ mixin _$FeedViewModel on _FeedViewModelBase, Store {
     });
   }
 
+  late final _$creatingPostAtom =
+      Atom(name: '_FeedViewModelBase.creatingPost', context: context);
+
+  @override
+  bool get creatingPost {
+    _$creatingPostAtom.reportRead();
+    return super.creatingPost;
+  }
+
+  @override
+  set creatingPost(bool value) {
+    _$creatingPostAtom.reportWrite(value, super.creatingPost, () {
+      super.creatingPost = value;
+    });
+  }
+
   late final _$loadPostsAsyncAction =
       AsyncAction('_FeedViewModelBase.loadPosts', context: context);
 
@@ -49,11 +65,21 @@ mixin _$FeedViewModel on _FeedViewModelBase, Store {
     return _$loadPostsAsyncAction.run(() => super.loadPosts(username, token));
   }
 
+  late final _$createPostAsyncAction =
+      AsyncAction('_FeedViewModelBase.createPost', context: context);
+
+  @override
+  Future<void> createPost(String title, String content, String token) {
+    return _$createPostAsyncAction
+        .run(() => super.createPost(title, content, token));
+  }
+
   @override
   String toString() {
     return '''
 posts: ${posts},
-loading: ${loading}
+loading: ${loading},
+creatingPost: ${creatingPost}
     ''';
   }
 }

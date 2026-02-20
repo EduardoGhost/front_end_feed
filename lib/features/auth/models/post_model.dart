@@ -1,12 +1,12 @@
 class Post {
-  final int id;
+  final int? id;
   final String title;
   final String content;
   final String? imageUrl;
   final DateTime createdAt;
 
   Post({
-    required this.id,
+    this.id,
     required this.title,
     required this.content,
     this.imageUrl,
@@ -20,4 +20,10 @@ class Post {
     imageUrl: json['imageUrl'],
     createdAt: DateTime.parse(json['createdAt']),
   );
+
+  Map<String, dynamic> toJson() => {
+    'title': title,
+    'content': content,
+  };
+
 }

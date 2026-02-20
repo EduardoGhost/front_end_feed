@@ -17,6 +17,9 @@ abstract class _FeedViewModelBase with Store {
   @observable
   bool loading = false;
 
+  @observable
+  bool creatingPost = false;
+
   @action
   Future<void> loadPosts(String username, String token) async {
     loading = true;
@@ -27,4 +30,24 @@ abstract class _FeedViewModelBase with Store {
       loading = false;
     }
   }
+
+  @action
+  Future<void> createPost(
+      String title, String content, String token) async {
+    creatingPost = true;
+
+    try {
+      await repository.createPost(title, content, token);
+      await loadPosts("admin", token);
+    } finally {
+      creatingPost = false;
+    }
+  }
+
+  @action
+  Future deletePost(Post post, String token) async {
+    await repository.deletePost(post.id!, token);
+    posts.remove(post);
+  }
+
 }
