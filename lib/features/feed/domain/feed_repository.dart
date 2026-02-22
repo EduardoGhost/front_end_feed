@@ -1,3 +1,4 @@
+import 'dart:io';
 import '../data/feed_remote_datasource.dart';
 import 'models/post_model.dart';
 
@@ -13,15 +14,21 @@ class FeedRepository {
   Future<Post> createPost(
       String title,
       String content,
+      File? imageFile,
       String token,
-      ) {
-    final post = Post(
-      title: title,
-      content: content,
-      createdAt: DateTime.now(),
-    );
+      ) async {
+    String? imageUrl;
 
-    return remote.createPost(token, post);
+    if (imageFile != null) {
+      imageUrl = await remote.uploadImage(imageFile, token);
+    }
+
+    return await remote.createPost(
+      title,
+      content,
+      imageUrl,
+      token,
+    );
   }
 
   Future<void> deletePost(int id, String token) {

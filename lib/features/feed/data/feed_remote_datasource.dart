@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import '../../core/dio_client.dart';
 import '../domain/models/post_model.dart';
@@ -22,12 +23,22 @@ class FeedRemoteDataSource {
         .toList();
   }
 
-  Future<Post> createPost(String token, Post post) async {
+  Future<Post> createPost(
+      String title,
+      String content,
+      String? imageUrl,
+      String token,
+      ) async {
     final response = await dio.post(
       '/posts',
-      data: post.toJson(),
+      data: {
+        "title": title,
+        "content": content,
+        "imageUrl": imageUrl,
+      },
       options: Options(headers: {'Authorization': 'Bearer $token'}),
     );
+
     return Post.fromJson(response.data);
   }
 
@@ -50,6 +61,23 @@ class FeedRemoteDataSource {
     );
 
     return Post.fromJson(response.data);
+  }
+
+
+  Future<String> uploadImage(File image, String token) async {
+    final formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(image.path),
+    });
+
+    final response = await dio.post(
+      "/posts/upload",
+      data: formData,
+      options: Options(headers: {
+        "Authorization": "Bearer $token",
+      }),
+    );
+
+    return response.data;
   }
 
 }

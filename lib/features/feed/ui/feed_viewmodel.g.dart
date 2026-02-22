@@ -69,9 +69,10 @@ mixin _$FeedViewModel on _FeedViewModelBase, Store {
       AsyncAction('_FeedViewModelBase.createPost', context: context);
 
   @override
-  Future<void> createPost(String title, String content, String token) {
+  Future<void> createPost(
+      String title, String content, File? imageFile, String token) {
     return _$createPostAsyncAction
-        .run(() => super.createPost(title, content, token));
+        .run(() => super.createPost(title, content, imageFile, token));
   }
 
   late final _$deletePostAsyncAction =

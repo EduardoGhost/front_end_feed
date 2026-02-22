@@ -52,7 +52,20 @@ class FeedPage extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       child: ListTile(
         title: Text(post.title),
-        subtitle: Text(post.content),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(post.content),
+
+            if (post.imageUrl != null)
+              Image.network(
+                "http://10.0.2.2:8080${post.imageUrl!}",
+                height: 180,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              )
+          ],
+        ),
         trailing: PopupMenuButton<String>(
           onSelected: (value) {
             if (value == 'delete') {
@@ -83,6 +96,7 @@ class FeedPage extends StatelessWidget {
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

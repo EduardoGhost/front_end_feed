@@ -1,21 +1,51 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../feed_viewmodel.dart';
 
-///mudar para statefull?
-class CreatePostDialog extends StatelessWidget {
+class CreatePostDialog extends StatefulWidget {
   final FeedViewModel vm;
   final String token;
 
-  CreatePostDialog({
+
+  const CreatePostDialog({
     super.key,
     required this.vm,
     required this.token,
   });
 
+  @override
+  State<CreatePostDialog> createState() => _CreatePostDialogState();
+}
+
+class _CreatePostDialogState extends State<CreatePostDialog> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
+
+
+  File? selectedImage;
+  final picker = ImagePicker();
+
+  Future<void> pickImage() async {
+    final picked = await picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 85,
+    );
+
+    if (picked != null) {
+      setState(() {
+        selectedImage = File(picked.path);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    contentController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +57,30 @@ class CreatePostDialog extends StatelessWidget {
           children: [
             TextField(
               controller: titleController,
-              decoration: const InputDecoration(
-                labelText: "Título",
-              ),
+              decoration: const InputDecoration(labelText: "Título"),
             ),
             TextField(
               controller: contentController,
-              decoration: const InputDecoration(
-                labelText: "Conteúdo",
-              ),
+              decoration: const InputDecoration(labelText: "Conteúdo"),
               maxLines: 4,
             ),
+
+            const SizedBox(height: 12),
+
+            ElevatedButton.icon(
+              onPressed: pickImage,
+              icon: const Icon(Icons.image),
+              label: const Text("Selecionar imagem"),
+            ),
+
+            if (selectedImage != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.file(selectedImage!, height: 150),
+                ),
+              ),
           ],
         ),
       ),
@@ -48,7 +91,7 @@ class CreatePostDialog extends StatelessWidget {
         ),
         Observer(
           builder: (_) => ElevatedButton(
-            onPressed: vm.creatingPost
+            onPressed: widget.vm.creatingPost
                 ? null
                 : () async {
               if (titleController.text.isEmpty ||
@@ -61,15 +104,17 @@ class CreatePostDialog extends StatelessWidget {
                 return;
               }
 
-              await vm.createPost(
+              await widget.vm.createPost(
                 titleController.text,
                 contentController.text,
-                token,
+                selectedImage,
+                widget.token,
+                // widget.username,
               );
 
               Navigator.pop(context);
             },
-            child: vm.creatingPost
+            child: widget.vm.creatingPost
                 ? const SizedBox(
               width: 18,
               height: 18,
@@ -77,7 +122,7 @@ class CreatePostDialog extends StatelessWidget {
             )
                 : const Text("Publicar"),
           ),
-        )
+        ),
       ],
     );
   }

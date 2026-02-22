@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:mobx/mobx.dart';
 import '../domain/feed_repository.dart';
 import '../domain/models/post_model.dart';
@@ -33,12 +35,26 @@ abstract class _FeedViewModelBase with Store {
 
   @action
   Future<void> createPost(
-      String title, String content, String token) async {
+      String title,
+      String content,
+      File? imageFile,
+      String token,
+      // String username,
+      ) async {
     creatingPost = true;
 
     try {
-      await repository.createPost(title, content, token);
+      await repository.createPost(
+        title,
+        content,
+        imageFile,
+        token,
+      );
+
+      // todo rever -> nao ha necessidade de admin
       await loadPosts("admin", token);
+    } catch (e) {
+      print("Erro ao criar post: $e");
     } finally {
       creatingPost = false;
     }
