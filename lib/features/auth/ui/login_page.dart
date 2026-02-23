@@ -28,7 +28,7 @@ class LoginPage extends StatelessWidget {
                   children: [
                     const SizedBox(height: 40),
 
-                    const Icon(Icons.lock_outline, size: 80),
+                    const Icon(Icons.lock_person_sharp, size: 80),
 
                     const SizedBox(height: 16),
 
@@ -105,20 +105,4 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
-// class FeedPage extends StatelessWidget {
-//   const FeedPage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final authUser = ModalRoute.of(context)!.settings.arguments as AuthUser?;
-//
-//     return Scaffold(
-//       appBar: AppBar(title: Text("Feed - ${authUser?.username ?? ''}")),
-//       body: const Center(
-//         child: Text("Aqui vai o feed dos posts do usuário!"),
-//       ),
-//     );
-//   }
-// }
 

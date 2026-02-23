@@ -37,7 +37,7 @@ abstract class _LoginViewModelBase with Store {
 
     try {
       final authUser = await repository.login(username, password);
-      // para manter o login -> guardar o token em SharedPreferences
+
       print('Token: ${authUser.token}');
       return authUser;
     } catch (e) {

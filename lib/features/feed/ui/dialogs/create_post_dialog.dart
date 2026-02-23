@@ -70,7 +70,7 @@ class _CreatePostDialogState extends State<CreatePostDialog> {
             ElevatedButton.icon(
               onPressed: pickImage,
               icon: const Icon(Icons.image),
-              label: const Text("Selecionar imagem"),
+              label: const Text("Tirar foto"),
             ),
 
             if (selectedImage != null)

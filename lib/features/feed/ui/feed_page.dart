@@ -103,7 +103,7 @@ class FeedPage extends StatelessWidget {
     vm.loadPosts(username, token);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Feed")),
+      appBar: AppBar(title: Text(username)),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
